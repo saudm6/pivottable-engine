@@ -2,6 +2,7 @@
   "name": "react-pivottable",
   "version": "0.11.1",
   "description": "A React-based pivot table",
+  "type": "module",
   "main": "PivotTableUI.js",
   "files": [
     "PivotTable.js",
@@ -16,6 +17,9 @@
     "Utilities.js.map",
     "pivottable.css"
   ],
+  "scripts": {
+    "test": "node --test"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/plotly/react-pivottable.git"

@@ -1,5 +1,6 @@
-import * as utils from '../Utilities';
-/* eslint-disable no-magic-numbers */
+import {describe, it} from 'node:test';
+import assert from 'node:assert/strict';
+import * as utils from '../Utilities.js';
 
 /*
  * decaffeinate suggestions:
@@ -23,7 +24,7 @@ describe('  utils', function() {
       const pd = new utils.PivotData({data: aoaInput});
 
       it('has the correct grand total value', () =>
-        expect(pd.getAggregator([], []).value()).toBe(2));
+        assert.equal(pd.getAggregator([], []).value(), 2));
     });
 
     describe('with array-of-array input', function() {
@@ -35,7 +36,7 @@ describe('  utils', function() {
       });
 
       it('has the correct grand total value', () =>
-        expect(pd.getAggregator([], []).value()).toBe((1 + 3) / (2 + 4)));
+        assert.equal(pd.getAggregator([], []).value(), (1 + 3) / (2 + 4)));
     });
 
     describe('with array-of-object input', function() {
@@ -47,7 +48,7 @@ describe('  utils', function() {
       });
 
       it('has the correct grand total value', () =>
-        expect(pd.getAggregator([], []).value()).toBe((1 + 3) / (2 + 4)));
+        assert.equal(pd.getAggregator([], []).value(), (1 + 3) / (2 + 4)));
     });
 
     describe('with ragged array-of-object input', function() {
@@ -59,7 +60,7 @@ describe('  utils', function() {
       });
 
       it('has the correct grand total value', () =>
-        expect(pd.getAggregator([], []).value()).toBe((1 + 3) / (2 + 4)));
+        assert.equal(pd.getAggregator([], []).value(), (1 + 3) / (2 + 4)));
     });
 
     describe('with function input', function() {
@@ -74,7 +75,7 @@ describe('  utils', function() {
       });
 
       it('has the correct grand total value', () =>
-        expect(pd.getAggregator([], []).value()).toBe((1 + 3) / (2 + 4)));
+        assert.equal(pd.getAggregator([], []).value(), (1 + 3) / (2 + 4)));
     });
 
     describe('with rows/cols', function() {
@@ -85,7 +86,7 @@ describe('  utils', function() {
       });
 
       it('has correctly-ordered row keys', () =>
-        expect(pd.getRowKeys()).toEqual([
+        assert.deepStrictEqual(pd.getRowKeys(), [
           ['Carol', 'yellow'],
           ['Jane', 'red'],
           ['John', 'blue'],
@@ -93,7 +94,7 @@ describe('  utils', function() {
         ]));
 
       it('has correctly-ordered col keys', () =>
-        expect(pd.getColKeys()).toEqual([
+        assert.deepStrictEqual(pd.getColKeys(), [
           [95, 25],
           [102, 14],
           [103, 12],
@@ -112,28 +113,28 @@ describe('  utils', function() {
             }
           }
         }
-        expect(numNotNull).toBe(4);
-        expect(numNull).toBe(12);
+        assert.equal(numNotNull, 4);
+        assert.equal(numNull, 12);
       });
 
       it('returns matching records', function() {
         const records = [];
         pd.forEachMatchingRecord({gender: 'male'}, x => records.push(x.name));
-        expect(records).toEqual(['Nick', 'John']);
+        assert.deepStrictEqual(records, ['Nick', 'John']);
       });
 
       it('has a correct spot-checked aggregator', function() {
         const agg = pd.getAggregator(['Carol', 'yellow'], [102, 14]);
         const val = agg.value();
-        expect(val).toBe(1);
-        expect(agg.format(val)).toBe('1');
+        assert.equal(val, 1);
+        assert.equal(agg.format(val), '1');
       });
 
       it('has a correct grand total aggregator', function() {
         const agg = pd.getAggregator([], []);
         const val = agg.value();
-        expect(val).toBe(4);
-        expect(agg.format(val)).toBe('4');
+        assert.equal(val, 4);
+        assert.equal(agg.format(val), '4');
       });
     });
   });
@@ -152,65 +153,67 @@ describe('  utils', function() {
     const tpl = utils.aggregatorTemplates;
 
     describe('.count', () =>
-      it('works', () => expect(getVal(tpl.count(), [])).toBe(4)));
+      it('works', () => assert.equal(getVal(tpl.count(), []), 4)));
 
     describe('.countUnique', () =>
-      it('works', () => expect(getVal(tpl.countUnique(), ['gender'])).toBe(2)));
+      it('works', () =>
+        assert.equal(getVal(tpl.countUnique(), ['gender']), 2)));
 
     describe('.listUnique', () =>
       it('works', () =>
-        expect(getVal(tpl.listUnique(), ['gender'])).toBe('male,female')));
+        assert.equal(getVal(tpl.listUnique(), ['gender']), 'male,female')));
 
     describe('.average', () =>
-      it('works', () => expect(getVal(tpl.average(), ['trials'])).toBe(103)));
+      it('works', () => assert.equal(getVal(tpl.average(), ['trials']), 103)));
 
     describe('.sum', () =>
-      it('works', () => expect(getVal(tpl.sum(), ['trials'])).toBe(412)));
+      it('works', () => assert.equal(getVal(tpl.sum(), ['trials']), 412)));
 
     describe('.min', () =>
-      it('works', () => expect(getVal(tpl.min(), ['trials'])).toBe(95)));
+      it('works', () => assert.equal(getVal(tpl.min(), ['trials']), 95)));
 
     describe('.max', () =>
-      it('works', () => expect(getVal(tpl.max(), ['trials'])).toBe(112)));
+      it('works', () => assert.equal(getVal(tpl.max(), ['trials']), 112)));
 
     describe('.first', () =>
-      it('works', () => expect(getVal(tpl.first(), ['name'])).toBe('Carol')));
+      it('works', () => assert.equal(getVal(tpl.first(), ['name']), 'Carol')));
 
     describe('.last', () =>
-      it('works', () => expect(getVal(tpl.last(), ['name'])).toBe('Nick')));
+      it('works', () => assert.equal(getVal(tpl.last(), ['name']), 'Nick')));
 
     describe('.average', () =>
-      it('works', () => expect(getVal(tpl.average(), ['trials'])).toBe(103)));
+      it('works', () => assert.equal(getVal(tpl.average(), ['trials']), 103)));
 
     describe('.median', () =>
-      it('works', () => expect(getVal(tpl.median(), ['trials'])).toBe(102.5)));
+      it('works', () => assert.equal(getVal(tpl.median(), ['trials']), 102.5)));
 
     describe('.quantile', () =>
       it('works', function() {
-        expect(getVal(tpl.quantile(0), ['trials'])).toBe(95);
-        expect(getVal(tpl.quantile(0.1), ['trials'])).toBe(98.5);
-        expect(getVal(tpl.quantile(0.25), ['trials'])).toBe(98.5);
-        expect(getVal(tpl.quantile(1 / 3), ['trials'])).toBe(102);
-        expect(getVal(tpl.quantile(1), ['trials'])).toBe(112);
+        assert.equal(getVal(tpl.quantile(0), ['trials']), 95);
+        assert.equal(getVal(tpl.quantile(0.1), ['trials']), 98.5);
+        assert.equal(getVal(tpl.quantile(0.25), ['trials']), 98.5);
+        assert.equal(getVal(tpl.quantile(1 / 3), ['trials']), 102);
+        assert.equal(getVal(tpl.quantile(1), ['trials']), 112);
       }));
 
     describe('.var', () =>
       it('works', () =>
-        expect(getVal(tpl.var(), ['trials'])).toBe(48.666666666666686)));
+        assert.equal(getVal(tpl.var(), ['trials']), 48.666666666666686)));
 
     describe('.stdev', () =>
       it('works', () =>
-        expect(getVal(tpl.stdev(), ['trials'])).toBe(6.976149845485451)));
+        assert.equal(getVal(tpl.stdev(), ['trials']), 6.976149845485451)));
 
     describe('.sumOverSum', () =>
       it('works', () =>
-        expect(getVal(tpl.sumOverSum(), ['successes', 'trials'])).toBe(
+        assert.equal(
+          getVal(tpl.sumOverSum(), ['successes', 'trials']),
           (12 + 25 + 30 + 14) / (95 + 102 + 103 + 112)
         )));
 
     describe('.fractionOf', () =>
       it('works', () =>
-        expect(getVal(tpl.fractionOf(tpl.sum()), ['trials'])).toBe(1)));
+        assert.equal(getVal(tpl.fractionOf(tpl.sum()), ['trials']), 1)));
   });
 
   describe('.naturalSort()', function() {
@@ -272,22 +275,26 @@ describe('  utils', function() {
     ];
 
     it('sorts naturally (null, NaN, numbers & numbery strings, Alphanum for text strings)', () =>
-      expect(sortedArr.slice().sort(naturalSort)).toEqual(sortedArr));
+      assert.deepStrictEqual(sortedArr.slice().sort(naturalSort), sortedArr));
   });
 
   describe('.sortAs()', function() {
     const {sortAs} = utils;
 
     it('sorts with unknown values sorted at the end', () =>
-      expect([5, 2, 3, 4, 1].sort(sortAs([4, 3, 2]))).toEqual([4, 3, 2, 1, 5]));
+      assert.deepStrictEqual([5, 2, 3, 4, 1].sort(sortAs([4, 3, 2])), [
+        4,
+        3,
+        2,
+        1,
+        5,
+      ]));
 
     it('sorts lowercase after uppercase', () =>
-      expect(['Ab', 'aA', 'aa', 'ab'].sort(sortAs(['Ab', 'Aa']))).toEqual([
-        'Ab',
-        'ab',
-        'aa',
-        'aA',
-      ]));
+      assert.deepStrictEqual(
+        ['Ab', 'aA', 'aa', 'ab'].sort(sortAs(['Ab', 'Aa'])),
+        ['Ab', 'ab', 'aa', 'aA']
+      ));
   });
 
   describe('.numberFormat()', function() {
@@ -295,47 +302,47 @@ describe('  utils', function() {
 
     it('formats numbers', function() {
       const nf = numberFormat();
-      expect(nf(1234567.89123456)).toEqual('1,234,567.89');
+      assert.deepStrictEqual(nf(1234567.89123456), '1,234,567.89');
     });
 
     it('formats booleans', function() {
       const nf = numberFormat();
-      expect(nf(true)).toEqual('1.00');
+      assert.deepStrictEqual(nf(true), '1.00');
     });
 
     it('formats numbers in strings', function() {
       const nf = numberFormat();
-      expect(nf('1234567.89123456')).toEqual('1,234,567.89');
+      assert.deepStrictEqual(nf('1234567.89123456'), '1,234,567.89');
     });
 
     it("doesn't formats strings", function() {
       const nf = numberFormat();
-      expect(nf('hi there')).toEqual('');
+      assert.deepStrictEqual(nf('hi there'), '');
     });
 
     it("doesn't formats objects", function() {
       const nf = numberFormat();
-      expect(nf({a: 1})).toEqual('');
+      assert.deepStrictEqual(nf({a: 1}), '');
     });
 
     it('formats percentages', function() {
       const nf = numberFormat({scaler: 100, suffix: '%'});
-      expect(nf(0.12345)).toEqual('12.35%');
+      assert.deepStrictEqual(nf(0.12345), '12.35%');
     });
 
     it('adds separators', function() {
       const nf = numberFormat({thousandsSep: 'a', decimalSep: 'b'});
-      expect(nf(1234567.89123456)).toEqual('1a234a567b89');
+      assert.deepStrictEqual(nf(1234567.89123456), '1a234a567b89');
     });
 
     it('adds prefixes and suffixes', function() {
       const nf = numberFormat({prefix: 'a', suffix: 'b'});
-      expect(nf(1234567.89123456)).toEqual('a1,234,567.89b');
+      assert.deepStrictEqual(nf(1234567.89123456), 'a1,234,567.89b');
     });
 
     it('scales and rounds', function() {
       const nf = numberFormat({digitsAfterDecimal: 3, scaler: 1000});
-      expect(nf(1234567.89123456)).toEqual('1,234,567,891.235');
+      assert.deepStrictEqual(nf(1234567.89123456), '1,234,567,891.235');
     });
   });
 
@@ -348,16 +355,18 @@ describe('  utils', function() {
       );
 
       it('formats date objects', () =>
-        expect(df({x: new Date('2015-01-02T23:43:11Z')})).toBe(
+        assert.equal(
+          df({x: new Date('2015-01-02T23:43:11Z')}),
           'abc % %% %%% %a 2015 01 Jan 02 Fri 5 23 43 11'
         ));
 
       it('formats input parsed by Date.parse()', function() {
-        expect(df({x: '2015-01-02T23:43:11Z'})).toBe(
+        assert.equal(
+          df({x: '2015-01-02T23:43:11Z'}),
           'abc % %% %%% %a 2015 01 Jan 02 Fri 5 23 43 11'
         );
 
-        expect(df({x: 'bla'})).toBe('');
+        assert.equal(df({x: 'bla'}), '');
       });
     });
 
@@ -365,20 +374,22 @@ describe('  utils', function() {
       const binner = utils.derivers.bin('x', 10);
 
       it('bins numbers', function() {
-        expect(binner({x: 11})).toBe(10);
+        assert.equal(binner({x: 11}), 10);
 
-        expect(binner({x: 9})).toBe(0);
+        assert.equal(binner({x: 9}), 0);
 
-        expect(binner({x: 111})).toBe(110);
+        assert.equal(binner({x: 111}), 110);
       });
 
-      it('bins booleans', () => expect(binner({x: true})).toBe(0));
+      it('bins booleans', () => assert.equal(binner({x: true}), 0));
 
-      it('bins negative numbers', () => expect(binner({x: -12})).toBe(-10));
+      it('bins negative numbers', () => assert.equal(binner({x: -12}), -10));
 
-      it("doesn't bin strings", () => expect(binner({x: 'a'})).toBeNaN());
+      it("doesn't bin strings", () =>
+        assert.ok(Number.isNaN(binner({x: 'a'}))));
 
-      it("doesn't bin objects", () => expect(binner({x: {a: 1}})).toBeNaN());
+      it("doesn't bin objects", () =>
+        assert.ok(Number.isNaN(binner({x: {a: 1}}))));
     });
   });
 });
