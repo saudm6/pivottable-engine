@@ -1,9 +1,9 @@
 type PivotRecord = Record<string, unknown>;
 
 type PivotDataInput =
-  | PivotRecord[]
+  | object[]
   | unknown[][]
-  | ((addRecord: (record: PivotRecord) => void) => void);
+  | ((addRecord: (record: object) => void) => void);
 
 type Formatter = (x: unknown) => unknown;
 
