@@ -29,8 +29,5 @@
   "bugs": {
     "url": "https://github.com/plotly/react-pivottable/issues"
   },
-  "homepage": "https://github.com/plotly/react-pivottable#readme",
-  "dependencies": {
-    "prop-types": "^15.5.10"
-  }
+  "homepage": "https://github.com/plotly/react-pivottable#readme"
 }
