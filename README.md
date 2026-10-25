@@ -44,6 +44,10 @@ for (const rowKey of pivot.getRowKeys()) {
 }
 ```
 
+Row and column keys hold the raw record values, so a number field gives
+number keys. The `derivedAttributes` option writes each derived value onto the
+record objects you pass in. Pass copies if your records must not change.
+
 ## Built-in aggregators
 
 - Count
