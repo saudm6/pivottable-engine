@@ -1,37 +1,32 @@
 {
-  "name": "react-pivottable",
-  "version": "0.11.1",
-  "description": "A React-based pivot table",
+  "name": "pivottable-engine",
+  "version": "1.0.0",
+  "description": "The pivot table calculation engine from react-pivottable, with no React or UI",
   "type": "module",
-  "main": "PivotTableUI.js",
+  "exports": {
+    ".": {
+      "types": "./src/Utilities.d.ts",
+      "default": "./src/Utilities.js"
+    }
+  },
   "files": [
-    "PivotTable.js",
-    "PivotTableUI.js",
-    "PlotlyRenderers.js",
-    "TableRenderers.js",
-    "Utilities.js",
-    "PivotTable.js.map",
-    "PivotTableUI.js.map",
-    "PlotlyRenderers.js.map",
-    "TableRenderers.js.map",
-    "Utilities.js.map",
-    "pivottable.css"
+    "src/Utilities.js",
+    "src/Utilities.d.ts"
   ],
   "scripts": {
     "test": "node --test"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/plotly/react-pivottable.git"
+    "url": "git+https://github.com/saudm6/pivottable-engine.git"
   },
   "keywords": [
-    "react",
     "pivottable"
   ],
   "author": "Nicolas Kruchten <nicolas@kruchten.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/plotly/react-pivottable/issues"
+    "url": "https://github.com/saudm6/pivottable-engine/issues"
   },
-  "homepage": "https://github.com/plotly/react-pivottable#readme"
+  "homepage": "https://github.com/saudm6/pivottable-engine#readme"
 }
