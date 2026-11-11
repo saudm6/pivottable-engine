@@ -1,6 +1,6 @@
 {
   "name": "pivottable-engine",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The pivot table calculation engine from react-pivottable, with no React or UI",
   "type": "module",
   "exports": {

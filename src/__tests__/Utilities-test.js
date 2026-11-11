@@ -137,6 +137,27 @@ describe('  utils', function() {
         assert.equal(agg.format(val), '4');
       });
     });
+
+    describe('with values named like built-in object properties', function() {
+      const names = ['constructor', 'toString', 'valueOf', 'hasOwnProperty', '__proto__'];
+      const records = ['Ann', ...names].map(name => ({name, colour: name}));
+
+      it('gives each value its own row, column and cell', function() {
+        const pd = new utils.PivotData({data: records, rows: ['name'], cols: ['colour']});
+        assert.equal(pd.getRowKeys().length, records.length);
+        assert.equal(pd.getColKeys().length, records.length);
+        for (const name of names) {
+          assert.equal(pd.getAggregator([name], []).value(), 1);
+          assert.equal(pd.getAggregator([], [name]).value(), 1);
+          assert.equal(pd.getAggregator([name], [name]).value(), 1);
+        }
+      });
+
+      it('filters out only the listed values', function() {
+        const pd = new utils.PivotData({data: records, valueFilter: {name: {Ann: true}}});
+        assert.equal(pd.getAggregator([], []).value(), names.length);
+      });
+    });
   });
 
   describe('.aggregatorTemplates', function() {
@@ -280,6 +301,12 @@ describe('  utils', function() {
 
   describe('.sortAs()', function() {
     const {sortAs} = utils;
+
+    it('sorts values named like built-in object properties as unknown values', () =>
+      assert.deepStrictEqual(
+        ['toString', 'b', 'constructor', 'a'].sort(sortAs(['a', 'b'])),
+        ['a', 'b', 'constructor', 'toString']
+      ));
 
     it('sorts with unknown values sorted at the end', () =>
       assert.deepStrictEqual([5, 2, 3, 4, 1].sort(sortAs([4, 3, 2])), [

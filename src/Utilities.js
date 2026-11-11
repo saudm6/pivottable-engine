@@ -120,10 +120,10 @@ const naturalSort = (as, bs) => {
 };
 
 const sortAs = function(order) {
-  const mapping = {};
+  const mapping = Object.create(null);
 
   // sort lowercased keys similarly
-  const l_mapping = {};
+  const l_mapping = Object.create(null);
   for (const i in order) {
     const x = order[i];
     mapping[x] = i;
@@ -534,11 +534,11 @@ class PivotData {
     this.aggregator = this.props.aggregators[this.props.aggregatorName](
       this.props.vals
     );
-    this.tree = {};
+    this.tree = Object.create(null);
     this.rowKeys = [];
     this.colKeys = [];
-    this.rowTotals = {};
-    this.colTotals = {};
+    this.rowTotals = Object.create(null);
+    this.colTotals = Object.create(null);
     this.allTotal = this.aggregator(this, [], []);
     this.sorted = false;
 
@@ -556,7 +556,7 @@ class PivotData {
 
   filter(record) {
     for (const k in this.props.valueFilter) {
-      if (record[k] in this.props.valueFilter[k]) {
+      if (Object.hasOwn(this.props.valueFilter[k], record[k])) {
         return false;
       }
     }
@@ -673,7 +673,7 @@ class PivotData {
 
     if (colKey.length !== 0 && rowKey.length !== 0) {
       if (!this.tree[flatRowKey]) {
-        this.tree[flatRowKey] = {};
+        this.tree[flatRowKey] = Object.create(null);
       }
       if (!this.tree[flatRowKey][flatColKey]) {
         this.tree[flatRowKey][flatColKey] = this.aggregator(
