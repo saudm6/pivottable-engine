@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 /*
  * decaffeinate suggestions:
  * DS101: Remove unnecessary use of Array.from
@@ -122,10 +120,10 @@ const naturalSort = (as, bs) => {
 };
 
 const sortAs = function(order) {
-  const mapping = {};
+  const mapping = Object.create(null);
 
   // sort lowercased keys similarly
-  const l_mapping = {};
+  const l_mapping = Object.create(null);
   for (const i in order) {
     const x = order[i];
     mapping[x] = i;
@@ -532,21 +530,15 @@ Data Model class
 class PivotData {
   constructor(inputProps = {}) {
     this.props = Object.assign({}, PivotData.defaultProps, inputProps);
-    PropTypes.checkPropTypes(
-      PivotData.propTypes,
-      this.props,
-      'prop',
-      'PivotData'
-    );
 
     this.aggregator = this.props.aggregators[this.props.aggregatorName](
       this.props.vals
     );
-    this.tree = {};
+    this.tree = Object.create(null);
     this.rowKeys = [];
     this.colKeys = [];
-    this.rowTotals = {};
-    this.colTotals = {};
+    this.rowTotals = Object.create(null);
+    this.colTotals = Object.create(null);
     this.allTotal = this.aggregator(this, [], []);
     this.sorted = false;
 
@@ -564,7 +556,7 @@ class PivotData {
 
   filter(record) {
     for (const k in this.props.valueFilter) {
-      if (record[k] in this.props.valueFilter[k]) {
+      if (Object.hasOwn(this.props.valueFilter[k], record[k])) {
         return false;
       }
     }
@@ -681,7 +673,7 @@ class PivotData {
 
     if (colKey.length !== 0 && rowKey.length !== 0) {
       if (!this.tree[flatRowKey]) {
-        this.tree[flatRowKey] = {};
+        this.tree[flatRowKey] = Object.create(null);
       }
       if (!this.tree[flatRowKey][flatColKey]) {
         this.tree[flatRowKey][flatColKey] = this.aggregator(
@@ -783,23 +775,6 @@ PivotData.defaultProps = {
   rowOrder: 'key_a_to_z',
   colOrder: 'key_a_to_z',
   derivedAttributes: {},
-};
-
-PivotData.propTypes = {
-  data: PropTypes.oneOfType([PropTypes.array, PropTypes.object, PropTypes.func])
-    .isRequired,
-  aggregatorName: PropTypes.string,
-  cols: PropTypes.arrayOf(PropTypes.string),
-  rows: PropTypes.arrayOf(PropTypes.string),
-  vals: PropTypes.arrayOf(PropTypes.string),
-  valueFilter: PropTypes.objectOf(PropTypes.objectOf(PropTypes.bool)),
-  sorters: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.objectOf(PropTypes.func),
-  ]),
-  derivedAttributes: PropTypes.objectOf(PropTypes.func),
-  rowOrder: PropTypes.oneOf(['key_a_to_z', 'value_a_to_z', 'value_z_to_a']),
-  colOrder: PropTypes.oneOf(['key_a_to_z', 'value_a_to_z', 'value_z_to_a']),
 };
 
 export {
